@@ -7,9 +7,7 @@ import {Component, Input} from '@angular/core';
 })
 export class MainTableComponent {
 	@Input() getSemesters: (object: object) => number[] = (_ => []);
-	@Input() getSequence: (object: object) => number|null = (_ => null);
-	@Input() setSequence: (object: object, idSequence: number) => void = function() {};
-	@Input() getSubSequences: (object: object) => number[] = (_ => []);
+	@Input() toggleSequence: (object: object, idSequence: number) => void = function() {};
 	@Input() columnWidths: number[] = [];
 	@Input() columnName: string|undefined;
 	@Input() columnNames: string[] = [];

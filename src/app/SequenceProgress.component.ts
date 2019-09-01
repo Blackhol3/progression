@@ -19,8 +19,8 @@ export class SequenceProgressComponent {
 
 	getProgress() {
 		let progress = 0;
-		progress += this.knowHows.filter(x => x.sequence !== null).length;
-		progress += this.knowledges.filter(x => x.sequence !== null).length;
+		progress += this.knowHows.filter(x => x.sequences.length > 0).length;
+		progress += this.knowledges.filter(x => x.sequences.length > 0).length;
 
 		return 100 * progress / (this.knowHows.length + this.knowledges.length);
 	}

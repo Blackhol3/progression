@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 
+type Sequencable = {name: string, sequences: number[]};
+
 @Component({
 	selector: 'sequence-table',
 	templateUrl: './SequenceTable.component.html',
@@ -7,21 +9,19 @@ import {Component, Input} from '@angular/core';
 })
 export class SequenceTableComponent {
 	@Input() getSemesters: (object: object) => number[] = (_ => []);
-	@Input() getSequence: (object: object) => number|null = (_ => null);
-	@Input() setSequence: (object: object, idSequence: number) => void = function() {};
-	@Input() getSubSequences: (object: object) => number[] = (_ => []);
+	@Input() toggleSequence: (object: object, idSequence: number) => void = function() {};
 	@Input() columnWidths: number[] = [];
 	@Input() columnName: string|undefined;
 	@Input() columnNames: string[] = [];
 
 	numberOfNestedLevel = 0;
 	numberOfSequences = 9;
-	dataBySequences: {name: string}[][][] = [];
+	dataBySequences: Sequencable[][][] = [];
 
-	protected _data: {name: string}[][] = [];
+	protected _data: Sequencable[][] = [];
 
 	@Input()
-	set data(data: {name: string}[][]) {
+	set data(data: Sequencable[][]) {
 		this._data = data;
 		this.numberOfNestedLevel = Math.max(...data.map(x => x.length)) || 0;
 		this.updateDataBySequences();
@@ -32,13 +32,15 @@ export class SequenceTableComponent {
 	}
 
 	updateDataBySequences(): void {
-		for (let idSequence of this.fillSequenceArray()) {
-			this.dataBySequences[idSequence === null ? -1 : idSequence] = this.data.filter(row => this.getSequence(row.last()) === idSequence);
+		for (let idSequence of this.fillArray(this.numberOfSequences + 1)) {
+			this.dataBySequences[idSequence] = this.data.filter(row => row.last().sequences.includes(idSequence));
 		}
+
+		this.dataBySequences[-1] = this.data.filter(row => row.last().sequences.length === 0);
 	}
 
-	setSequenceAndUpdateDataBySequences(object: object, idSequence: number): void {
-		this.setSequence(object, idSequence);
+	toggleSequenceAndUpdateDataBySequences(object: object, idSequence: number): void {
+		this.toggleSequence(object, idSequence);
 		this.updateDataBySequences();
 	}
 

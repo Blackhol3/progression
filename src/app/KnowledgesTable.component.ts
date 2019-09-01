@@ -16,12 +16,10 @@ export class KnowledgesTableComponent {
 		return [knowledge.semester as number];
 	}
 
-	getSequence(knowledge: Knowledge): number|null {
-		return knowledge.sequence;
-	}
+	toggleSequence(knowledge: Knowledge, idSequence: number): void {
+		let index = knowledge.sequences.indexOf(idSequence);
+		index == -1 ? knowledge.sequences.push(idSequence) : knowledge.sequences.splice(index, 1);
 
-	setSequence(knowledge: Knowledge, idSequence: number): void {
-		knowledge.sequence = (knowledge.sequence === idSequence) ? null : idSequence;
 		this.program.save(knowledge);
 		this.program.updateKnowledgeSubSequences(knowledge);
 	}

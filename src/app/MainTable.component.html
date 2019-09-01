@@ -32,9 +32,9 @@
 			</td>
 			<td
 				class="mat-cell sequence-cell sequence-cell-{{idSequence}}"
-				[ngClass]="{colored: getSequence(row.last()) === idSequence, 'half-colored': row.last().subSequences.includes(idSequence), highlighted: highlightedRowId == idRow}"
+				[ngClass]="{colored: row.last().sequences.includes(idSequence), 'half-colored': row.last().subSequences.includes(idSequence), highlighted: highlightedRowId == idRow}"
 				*ngFor="let idSequence of fillArray(numberOfSequences + 1)"
-				(click)="setSequence(row.last(), idSequence)"
+				(click)="toggleSequence(row.last(), idSequence)"
 			></td>
 		</tr>
 	</tbody>

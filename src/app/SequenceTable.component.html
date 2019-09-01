@@ -3,8 +3,7 @@
 		<main-table
 			[data]="data"
 			[getSemesters]="getSemesters"
-			[getSequence]="getSequence"
-			[setSequence]="setSequenceAndUpdateDataBySequences.bind(this)"
+			[toggleSequence]="toggleSequenceAndUpdateDataBySequences.bind(this)"
 			[columnWidths]="columnWidths"
 			[columnName]="columnName"
 			[columnNames]="columnNames"
@@ -21,8 +20,7 @@
 			<main-table
 				[data]="dataBySequences[idSequence === null ? -1 : idSequence]"
 				[getSemesters]="getSemesters"
-				[getSequence]="getSequence"
-				[setSequence]="setSequenceAndUpdateDataBySequences.bind(this)"
+				[toggleSequence]="toggleSequenceAndUpdateDataBySequences.bind(this)"
 				[columnWidths]="columnWidths"
 				[columnName]="columnName"
 				[columnNames]="columnNames"

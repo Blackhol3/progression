@@ -17,12 +17,10 @@ export class KnowHowsTableComponent {
 		return knowHow.competence.getSemesters();
 	}
 
-	getSequence(knowHow: KnowHow): number|null {
-		return knowHow.sequence;
-	}
+	toggleSequence(knowHow: KnowHow, idSequence: number): void {
+		let index = knowHow.sequences.indexOf(idSequence);
+		index == -1 ? knowHow.sequences.push(idSequence) : knowHow.sequences.splice(index, 1);
 
-	setSequence(knowHow: KnowHow, idSequence: number): void {
-		knowHow.sequence = (knowHow.sequence === idSequence) ? null : idSequence;
 		this.program.save(knowHow);
 		this.program.updateKnowHowSubSequences(knowHow);
 	}
