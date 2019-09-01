@@ -7,6 +7,7 @@ import {AppComponent} from './app.component';
 import {MaterialModule} from './material.module';
 import {KnowHowsTableComponent} from './KnowHowsTable.component';
 import {KnowledgesTableComponent} from './KnowledgesTable.component';
+import {SequenceProgressComponent} from './SequenceProgress.component';
 import {SequenceTableComponent} from './SequenceTable.component';
 
 declare global {
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
 		AppComponent,
 		KnowHowsTableComponent,
 		KnowledgesTableComponent,
+		SequenceProgressComponent,
 		SequenceTableComponent,
 	],
 	imports: [

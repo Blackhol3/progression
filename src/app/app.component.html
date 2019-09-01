@@ -8,7 +8,8 @@
 			<a mat-list-item routerLink="/knowledges" routerLinkActive="active">Savoirs</a>
 		</mat-nav-list>
 	</mat-sidenav>
-	<mat-sidenav-content #XXX>
+	<mat-sidenav-content #sidenavContent>
+		<sequence-progress></sequence-progress>
 		<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
 	</mat-sidenav-content>
 </mat-sidenav-container>
