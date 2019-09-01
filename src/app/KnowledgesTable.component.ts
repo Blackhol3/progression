@@ -6,10 +6,24 @@ import {Knowledge} from './Knowledge';
 	templateUrl: './KnowledgesTable.component.html',
 })
 export class KnowledgesTableComponent {
-	protected data: Knowledge[][] = [];
+	data: Knowledge[][] = [];
 
-	public constructor(readonly program: ProgramService) {
+	constructor(readonly program: ProgramService) {
 		this.program.knowledges.filter(x => x.parent === null).forEach(x => this.addData(x));
+	}
+
+	getSemesters(knowledge: Knowledge): number[] {
+		return [knowledge.semester as number];
+	}
+
+	getSequence(knowledge: Knowledge): number|null {
+		return knowledge.sequence;
+	}
+
+	setSequence(knowledge: Knowledge, idSequence: number): void {
+		knowledge.sequence = (knowledge.sequence === idSequence) ? null : idSequence;
+		this.program.save(knowledge);
+		this.program.updateKnowledgeSubSequences(knowledge);
 	}
 
 	protected addData(knowledge: Knowledge): void
@@ -27,19 +41,5 @@ export class KnowledgesTableComponent {
 		for (let i = initialLength; i < this.data.length; ++i) {
 			this.data[i].unshift(knowledge);
 		}
-	}
-
-	protected getSemesters(knowledge: Knowledge): number[] {
-		return [knowledge.semester as number];
-	}
-
-	protected getSequence(knowledge: Knowledge): number|null {
-		return knowledge.sequence;
-	}
-
-	protected setSequence(knowledge: Knowledge, idSequence: number): void {
-		knowledge.sequence = (knowledge.sequence === idSequence) ? null : idSequence;
-		this.program.save(knowledge);
-		this.program.updateKnowledgeSubSequences(knowledge);
 	}
 }

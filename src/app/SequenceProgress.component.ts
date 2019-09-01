@@ -12,12 +12,12 @@ export class SequenceProgressComponent {
 	protected knowHows: KnowHow[] = [];
 	protected knowledges: Knowledge[] = [];
 
-	public constructor(program: ProgramService) {
+	constructor(program: ProgramService) {
 		this.knowHows = program.knowHows;
 		this.knowledges = program.knowledges.filter(x => x.children.length === 0);
 	}
 
-	protected getProgress() {
+	getProgress() {
 		let progress = 0;
 		progress += this.knowHows.filter(x => x.sequence !== null).length;
 		progress += this.knowledges.filter(x => x.sequence !== null).length;

@@ -14,29 +14,30 @@ export class SequenceTableComponent {
 	@Input() columnName: string|undefined;
 	@Input() columnNames: string[] = [];
 
+	numberOfNestedLevel = 0;
+	numberOfSequences = 9;
+	highlightedRowId: number|null = null;
+	sortOrder: string = 'program';
+
 	protected _data: {name: string}[][] = [];
 	protected initialData: {name: string}[][] = [];
-	protected numberOfNestedLevel = 0;
-	protected numberOfSequences = 9;
-	protected highlightedRowId: number|null = null;
-	protected sortOrder: string = 'program';
 
 	@Input()
-	protected set data(data: {name: string}[][]) {
+	set data(data: {name: string}[][]) {
 		this.initialData = data;
 		this.numberOfNestedLevel = Math.max(...data.map(x => x.length)) || 0;
 		this.sort();
 	}
 
-	protected get data() {
+	get data() {
 		return this._data;
 	}
 
-	protected isShown(idRow: number, idColumn: number): boolean {
+	isShown(idRow: number, idColumn: number): boolean {
 		return idRow === 0 || this.data[idRow][idColumn] !== this.data[idRow - 1][idColumn];
 	}
 
-	protected getRowSpan(idRow: number, idColumn: number): number {
+	getRowSpan(idRow: number, idColumn: number): number {
 		let rowSpan = 1;
 		while (idRow + rowSpan < this.data.length && this.data[idRow][idColumn] === this.data[idRow + rowSpan][idColumn]) {
 			++rowSpan;
@@ -45,7 +46,7 @@ export class SequenceTableComponent {
 		return rowSpan;
 	}
 
-	protected getColSpan(idRow: number, idColumn: number): number {
+	getColSpan(idRow: number, idColumn: number): number {
 		if (this.data[idRow][idColumn + 1] !== undefined) {
 			return 1;
 		}
@@ -53,7 +54,7 @@ export class SequenceTableComponent {
 		return this.numberOfNestedLevel - idColumn;
 	}
 
-	protected fillArray(size: number): number[] {
+	fillArray(size: number): number[] {
 		let array = Array(size);
 		for (let i = 0; i < size; ++i) {
 			array[i] = i;
@@ -62,7 +63,7 @@ export class SequenceTableComponent {
 		return array;
 	}
 
-	protected sort(): void {
+	sort(): void {
 		if (this.sortOrder === 'program') {
 			this._data = [];
 			this._data.push(...this.initialData);
