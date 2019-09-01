@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes, RouteReuseStrategy} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {MaterialModule} from './material.module';
@@ -9,6 +9,7 @@ import {KnowHowsTableComponent} from './KnowHowsTable.component';
 import {KnowledgesTableComponent} from './KnowledgesTable.component';
 import {SequenceProgressComponent} from './SequenceProgress.component';
 import {SequenceTableComponent} from './SequenceTable.component';
+import {CacheRouteReuseStrategy} from './CacheRouteReuseStrategy';
 
 declare global {
 	interface Array<T> {
@@ -50,7 +51,10 @@ const appRoutes: Routes = [
 		BrowserAnimationsModule,
 		MaterialModule,
 	],
-	providers: [],
+	providers: [{
+		provide: RouteReuseStrategy,
+		useClass: CacheRouteReuseStrategy
+	}],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
