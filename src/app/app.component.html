@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <span>Progression</span>
+</mat-toolbar>
+<mat-sidenav-container>
+	<mat-sidenav mode="side" opened>
+		<mat-nav-list>
+			<a mat-list-item routerLink="/know-hows" routerLinkActive="active">Savoirs-faire</a>
+			<a mat-list-item routerLink="/knowledges" routerLinkActive="active">Savoirs</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content #XXX>
+		<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
+	</mat-sidenav-content>
+</mat-sidenav-container>

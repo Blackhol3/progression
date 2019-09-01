@@ -1,0 +1,41 @@
+<table class="mat-table mat-elevation-z8">
+	<colgroup>
+       <col [style.width]="width + '%'" *ngFor="let width of columnWidths">
+       <col *ngFor="let _ of fillArray(numberOfNestedLevel - columnWidths.length)">
+       <col style="width: 1%;" *ngFor="let _ of fillArray(4)">
+       <col style="width: 2.5%;" *ngFor="let _ of fillArray(numberOfSequences + 1)">
+    </colgroup>
+	
+	<thead>
+		<tr class="mat-header-row">
+			<th class="mat-header-cell last-vertical-header-cell" rowspan="2" *ngIf="columnName" [colSpan]="numberOfNestedLevel">{{columnName}}</th>
+			<th class="mat-header-cell last-vertical-header-cell" rowspan="2" *ngFor="let name of columnNames">{{name}}</th>
+			<th class="mat-header-cell semester-header-cell" style="position: sticky" colspan="4">Semestre</th>
+			<th class="mat-header-cell" [colSpan]="numberOfSequences + 1">Séquence</th>
+		</tr>
+		
+		<tr class="mat-header-row">
+			<th class="mat-header-cell last-vertical-header-cell semester-cell-{{idSemester + 1}}" *ngFor="let idSemester of fillArray(4)">{{idSemester + 1}}</th>
+			<th class="mat-header-cell last-vertical-header-cell" *ngFor="let idSequence of fillArray(numberOfSequences + 1)">{{idSequence === 0 ? '&#x2205;' : idSequence}}</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr *ngFor="let row of data; index as idRow" (mouseenter)="highlightedRowId = idRow" (mouseleave)="highlightedRowId = null">
+			<ng-container *ngFor="let cell of row; index as idColumn">
+				<td class="mat-cell" *ngIf="isShown(idRow, idColumn)" [rowSpan]="getRowSpan(idRow, idColumn)" [colSpan]="getColSpan(idRow, idColumn)" [ngClass]="{highlighted: cell == row.last() && highlightedRowId == idRow}">
+					{{cell.name}}
+				</td>
+			</ng-container>
+			<td class="mat-cell semester-cell semester-cell-{{idSemester + 1}}" *ngFor="let idSemester of fillArray(4); index as idSemester" [ngClass]="{highlighted: highlightedRowId == idRow}">
+				{{getSemesters(row.last()).includes(idSemester + 1) ? idSemester + 1 : ''}}
+			</td>
+			<td
+				class="mat-cell sequence-cell sequence-cell-{{idSequence}}"
+				[ngClass]="{colored: getSequence(row.last()) == idSequence, 'half-colored': row.last().subSequences.includes(idSequence), highlighted: highlightedRowId == idRow}"
+				*ngFor="let idSequence of fillArray(numberOfSequences + 1)"
+				(click)="setSequence(row.last(), idSequence)"
+			></td>
+		</tr>
+	</tbody>
+</table>
