@@ -6,6 +6,7 @@ import {RouterModule, Routes, RouteReuseStrategy} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {MaterialModule} from './material.module';
+import {MainTableComponent} from './MainTable.component';
 import {KnowHowsTableComponent} from './KnowHowsTable.component';
 import {KnowledgesTableComponent} from './KnowledgesTable.component';
 import {SequenceProgressComponent} from './SequenceProgress.component';
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
 @NgModule({
 	declarations: [
 		AppComponent,
+		MainTableComponent,
 		KnowHowsTableComponent,
 		KnowledgesTableComponent,
 		SequenceProgressComponent,

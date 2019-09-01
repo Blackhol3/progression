@@ -1,0 +1,86 @@
+@color0: lightgrey;
+@color1: #0072BD;
+@color2: #D95319;
+@color3: #EDB120;
+@color4: #7E2F8E;
+@color5: #77AC30;
+@color6: #4DBEEE;
+@color7: #A2142F;
+@color8: #345342;
+@color9: #F99DEE;
+
+#sort-order {
+	margin-left: 20px;
+
+	.mat-button-toggle-group {
+		margin-left: 5px;
+	}
+}
+
+table {
+	@margin: 20px;
+	border-spacing: 0;
+	margin: @margin;
+	width: calc(100% - 2*@margin);
+}
+
+th, td {
+	padding: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-right: 1px solid rgba(0,0,0,.12);
+	transition: background 0.5s;
+}
+
+th {
+	font-weight: bold;
+	background: white;
+}
+
+thead {
+	position: sticky;
+	top: 0;
+}
+
+.last-vertical-header-cell {
+	border-bottom: 3px solid rgba(0,0,0,.12);
+}
+
+.semester-cell {
+	text-align: center;
+}
+
+.semester-header-cell, .semester-cell-1, .semester-header-cell + *, .semester-cell-4 + * {
+	border-left: 3px solid rgba(0,0,0,.12);
+}
+
+.colored, .half-colored {
+	&.sequence-cell-0 { background-color: @color0; }
+	&.sequence-cell-1 { background-color: @color1; }
+	&.sequence-cell-2 { background-color: @color2; }
+	&.sequence-cell-3 { background-color: @color3; }
+	&.sequence-cell-4 { background-color: @color4; }
+	&.sequence-cell-5 { background-color: @color5; }
+	&.sequence-cell-6 { background-color: @color6; }
+	&.sequence-cell-7 { background-color: @color7; }
+	&.sequence-cell-8 { background-color: @color8; }
+	&.sequence-cell-9 { background-color: @color9; }
+}
+
+.half-colored {
+	background-image: repeating-linear-gradient(
+		45deg,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.7) 10%,
+		white 10%,
+		white 20%
+	);
+}
+
+.colored {
+	background-image: none;
+}
+
+.highlighted {
+	background-color: rgba(0, 0, 255, 0.05);
+}

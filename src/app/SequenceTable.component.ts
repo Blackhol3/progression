@@ -16,71 +16,42 @@ export class SequenceTableComponent {
 
 	numberOfNestedLevel = 0;
 	numberOfSequences = 9;
-	highlightedRowId: number|null = null;
-	sortOrder: string = 'program';
+	dataBySequences: {name: string}[][][] = [];
 
 	protected _data: {name: string}[][] = [];
-	protected initialData: {name: string}[][] = [];
 
 	@Input()
 	set data(data: {name: string}[][]) {
-		this.initialData = data;
+		this._data = data;
 		this.numberOfNestedLevel = Math.max(...data.map(x => x.length)) || 0;
-		this.sort();
+		this.updateDataBySequences();
 	}
 
 	get data() {
 		return this._data;
 	}
 
-	isShown(idRow: number, idColumn: number): boolean {
-		return idRow === 0 || this.data[idRow][idColumn] !== this.data[idRow - 1][idColumn];
-	}
-
-	getRowSpan(idRow: number, idColumn: number): number {
-		let rowSpan = 1;
-		while (idRow + rowSpan < this.data.length && this.data[idRow][idColumn] === this.data[idRow + rowSpan][idColumn]) {
-			++rowSpan;
+	updateDataBySequences(): void {
+		for (let idSequence of this.fillSequenceArray()) {
+			this.dataBySequences[idSequence === null ? -1 : idSequence] = this.data.filter(row => this.getSequence(row.last()) === idSequence);
 		}
-
-		return rowSpan;
 	}
 
-	getColSpan(idRow: number, idColumn: number): number {
-		if (this.data[idRow][idColumn + 1] !== undefined) {
-			return 1;
-		}
-
-		return this.numberOfNestedLevel - idColumn;
+	setSequenceAndUpdateDataBySequences(object: object, idSequence: number): void {
+		this.setSequence(object, idSequence);
+		this.updateDataBySequences();
 	}
 
-	fillArray(size: number): number[] {
+	fillArray(size: number, firstValue: number = 0): number[] {
 		let array = Array(size);
 		for (let i = 0; i < size; ++i) {
-			array[i] = i;
+			array[i] = i + firstValue;
 		}
 
 		return array;
 	}
 
-	sort(): void {
-		if (this.sortOrder === 'program') {
-			this._data = [];
-			this._data.push(...this.initialData);
-		}
-		else {
-			this._data.sort((a: any[], b: any[]): number => {
-				let sequenceA = a.last().sequence;
-				let sequenceB = b.last().sequence;
-
-				if (sequenceA === null) { sequenceA = this.numberOfSequences + 1; }
-				else if (sequenceA === 0) { sequenceA = this.numberOfSequences + 2; }
-
-				if (sequenceB === null) { sequenceB = this.numberOfSequences + 1; }
-				else if (sequenceB === 0) { sequenceB = this.numberOfSequences + 2; }
-
-				return sequenceA - sequenceB;
-			});
-		}
+	fillSequenceArray(): (number|null)[] {
+		return [null, ...this.fillArray(this.numberOfSequences, 1), 0];
 	}
 }
