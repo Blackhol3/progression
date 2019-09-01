@@ -13,49 +13,73 @@ export class SequenceTableComponent {
 	@Input() columnWidths: number[] = [];
 	@Input() columnName: string|undefined;
 	@Input() columnNames: string[] = [];
-	
+
 	protected _data: {name: string}[][] = [];
+	protected initialData: {name: string}[][] = [];
 	protected numberOfNestedLevel = 0;
 	protected numberOfSequences = 9;
 	protected highlightedRowId: number|null = null;
-	
+	protected sortOrder: string = 'program';
+
 	@Input()
 	protected set data(data: {name: string}[][]) {
-		this._data = data;
+		this.initialData = data;
 		this.numberOfNestedLevel = Math.max(...data.map(x => x.length)) || 0;
+		this.sort();
 	}
-	
+
 	protected get data() {
 		return this._data;
 	}
-	
+
 	protected isShown(idRow: number, idColumn: number): boolean {
 		return idRow === 0 || this.data[idRow][idColumn] !== this.data[idRow - 1][idColumn];
 	}
-	
+
 	protected getRowSpan(idRow: number, idColumn: number): number {
 		let rowSpan = 1;
 		while (idRow + rowSpan < this.data.length && this.data[idRow][idColumn] === this.data[idRow + rowSpan][idColumn]) {
 			++rowSpan;
 		}
-		
+
 		return rowSpan;
 	}
-	
+
 	protected getColSpan(idRow: number, idColumn: number): number {
 		if (this.data[idRow][idColumn + 1] !== undefined) {
 			return 1;
 		}
-		
+
 		return this.numberOfNestedLevel - idColumn;
 	}
-	
+
 	protected fillArray(size: number): number[] {
 		let array = Array(size);
 		for (let i = 0; i < size; ++i) {
 			array[i] = i;
 		}
-		
+
 		return array;
+	}
+
+	protected sort(): void {
+		if (this.sortOrder === 'program') {
+			this._data = [];
+			this._data.push(...this.initialData);
+		}
+		else {
+			this._data.sort((a: any[], b: any[]): number => {
+				let sequenceA = a.last().sequence;
+				let sequenceB = b.last().sequence;
+
+				if (sequenceA === null) { sequenceA = this.numberOfSequences + 1; }
+				else if (sequenceA === 0) { sequenceA = this.numberOfSequences + 2; }
+
+				if (sequenceB === null) { sequenceB = this.numberOfSequences + 1; }
+				else if (sequenceB === 0) { sequenceB = this.numberOfSequences + 2; }
+
+				return sequenceA - sequenceB;
+			});
+		}
 	}
 }

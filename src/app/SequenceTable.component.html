@@ -1,3 +1,10 @@
+<p id="sort-order">
+	Tri :
+	<mat-button-toggle-group name="sortOrder" [(ngModel)]="sortOrder" (ngModelChange)="sort()">
+		<mat-button-toggle value="program">Référentiel</mat-button-toggle>
+		<mat-button-toggle value="sequence">Séquence</mat-button-toggle>
+	</mat-button-toggle-group>
+</p>
 <table class="mat-table mat-elevation-z8">
 	<colgroup>
        <col [style.width]="width + '%'" *ngFor="let width of columnWidths">
@@ -5,7 +12,7 @@
        <col style="width: 1%;" *ngFor="let _ of fillArray(4)">
        <col style="width: 2.5%;" *ngFor="let _ of fillArray(numberOfSequences + 1)">
     </colgroup>
-	
+
 	<thead>
 		<tr class="mat-header-row">
 			<th class="mat-header-cell last-vertical-header-cell" rowspan="2" *ngIf="columnName" [colSpan]="numberOfNestedLevel">{{columnName}}</th>
@@ -13,7 +20,7 @@
 			<th class="mat-header-cell semester-header-cell" style="position: sticky" colspan="4">Semestre</th>
 			<th class="mat-header-cell" [colSpan]="numberOfSequences + 1">Séquence</th>
 		</tr>
-		
+
 		<tr class="mat-header-row">
 			<th class="mat-header-cell last-vertical-header-cell semester-cell-{{idSemester + 1}}" *ngFor="let idSemester of fillArray(4)">{{idSemester + 1}}</th>
 			<th class="mat-header-cell last-vertical-header-cell" *ngFor="let idSequence of fillArray(numberOfSequences + 1)">{{idSequence === 0 ? '&#x2205;' : idSequence}}</th>
